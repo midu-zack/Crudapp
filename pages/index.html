@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Table</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      margin: 20px;
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #500263;
+    }
+
+    table {
+      margin-top: 20px;
+    }
+
+    th, td {
+      text-align: center;
+    }
+
+    th {
+      background-color: rgb(0, 0, 0);
+      color: #ffffff;
+    }
+
+    tbody {
+      background-color: #f2f2f2;
+    }
+
+    .btn-primary {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container" id="userlistform" >
+  <h2 class="font-weight-bolder" style=" font-weight: 900;">Datas Table</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">NO</th>
+        <th scope="col">Name</th>
+        <th scope="col">Phone Number</th>
+        <th scope="col">Age</th>
+        <th scope="col">Gmail</th>
+        <th scope="col">Update</th>
+        <th scope="col">Delete</th>
+      </tr>
+      <h3></h3>
+    </thead>
+    <tbody id="userTableBody">
+
+    
+      
+    </tbody>
+  </table>
+
+<form action="/form" method="get">
+  <button class="btn btn-primary" type="submit" >Add User</button>
+</form> 
+ 
+</div>
+
+<div class="container" id="registration" style="display: none;">
+  <div class="login-container" >
+    <h2 class="text-center  m-4" style="  font-weight: 800; color: #d2e100;">DETAILS</h2>
+    <form  onsubmit="return validateForm()">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control"  id="nickname" placeholder="Enter your name " name="name" value="">
+        <p id="nameform" style="color: #e10000;"></p>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="number" class="form-control" id="phonenumber" placeholder="Enter your phone number" name="phonenumber" value="">
+        <p id="numberform" style="color: #e10000;"></p>
+      </div>
+      <div class="form-group">
+        <label for="age">Age:</label>
+        <input type="number" class="form-control" id="ageold" placeholder="Enter your age" name="age" value="">
+        <p id="ageform" style="color: #e10000;"></p>
+      </div>
+      <div class="form-group">
+        <label for="gmail">Gmail:</label>
+        <input type="email" class="form-control" id="mail" placeholder="example@example.com" name="gmail" value="">
+        <p id="gmailform" style="color: #e10000;"></p>
+      </div>
+
+      <input 
+            id="modifyd"
+            type="button"
+            value="Update"
+            style="background-color: rgb(207, 0, 0); color: white; width: 15rem"
+            
+          />
+          <!-- <form action="/submit" method="get " class="pt-3">
+            <button type="submit" class="btn btn-login " style=" background-color: #e10000;" > </button>
+           </form> -->
+        </div>
+    
+    </form>
+ 
+  </div>
+</div>
+
+
+<!-- Bootstrap JS and Popper.js (for Bootstrap modal) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- <script src="ok"></script> -->
+
+<script>
+  document.addEventListener("DOMContentLoaded",()=>{
+
+     
+    fetch('/getdetails')
+    .then((response)=>response.json())
+    .then((data)=>{
+        const userData=document.getElementById('userTableBody');
+        
+        data.forEach((item) => {
+          const rows=document.createElement("tr")
+
+          rows.innerHTML = `
+              <td>${item.id}</td>
+              <td>${item.name}</td>
+              <td>${item.phonenumber}</td>
+              <td>${item.age}</td>
+              <td>${item.gmail}</td> 
+              <td><button class="btn btn-info btn-sm" onclick="updateUser('${item.id}','${item.name}', '${item.phone}', ${item.age}, '${item.gmail}')"">Edit</button>
+              </td>
+              <td>
+              <button class="btn btn-danger btn-sm" onclick="deleteUser('${item.id}')">Delete</button>
+              </td>`;
+              userData.appendChild(rows);
+          console.log(userData);
+         
+        });
+    }).catch((err)=>{
+      console.error("ERROR 404" + err);
+    });
+  });
+
+
+
+  function updateUser(mid,mname,mtelphone,mage,mgmail){
+
+ 
+    document.getElementById("userlistform").style.display = 'none'
+     document.getElementById("registration").style.display ='block'
+       
+     document.getElementById('nickname').value = mname;
+     document.getElementById('phonenumber').value = mtelphone;
+     document.getElementById('ageold').value = mage ;
+     document.getElementById('mail').value = mgmail ;
+
+
+
+   
+    const modibtn = document.getElementById('modifyd');
+    modibtn.addEventListener('click',()=>{
+    
+      
+
+        let tname = document.getElementById('nickname').value;
+        let fname = document.getElementById('nameform')
+        let telphone = document.getElementById('phonenumber').value;
+        let fphone = document.getElementById('numberform')
+        let yearold = document.getElementById('ageold').value;
+        let fage = document.getElementById('ageform')
+        let fmail = document.getElementById('mail').value
+        let fgmail = document.getElementById('gmailform')
+    
+        
+
+      if(tname === ''){
+        fname.innerHTML = " Enter your name"
+        return false;
+      }
+       
+      
+      if(telphone === ''){
+        fphone.innerHTML = 'Enter your phone number'
+        return false
+      } 
+      
+      if(yearold === ''){
+        fage.innerHTML = 'Enter your age'
+       
+        return false
+      } 
+      
+
+      if(fmail === ''){
+        fgmail.innerHTML='Enter proper gmail '
+         
+        return false
+      } 
+
+  
+      const dataToUpdate = {
+          name:tname,
+          phonenumber:telphone,
+          age:yearold,
+          gmail:fmail
+          }
+
+        fetch('/editdetails/${mid}', {
+          method : 'PUT',
+          headers : { "Content-Type": "application/json" },
+          body :JSON.stringify(dataToUpdate),
+        }).then((response)=>{
+          if(response.status===200){
+            alert("update your datas")
+            console.log("Modifd");
+            window.location.href = "/home?"
+          }else{
+            console.err("ERROR modifd not possible")
+            response.status,
+            response.statusText;
+          }
+         
+        }) .catch((error) => {
+           console.error("Fetch Error:", error);
+         });
+            });
+        }
+
+        // delete button 
+        function deleteUser(userid){
+          fetch (`/deleteuser/${userid}`,{
+            method :'DELETE',
+
+
+          }).then((response)=>{
+            if(response.status === 200){
+              alert("delete success successfully");
+              window.location.href = '/home?'
+
+            }else{
+              console.error("Error: Delete not possible", response.status, response.statusText);
+            }
+
+          }).catch((error) => {
+           console.error("Error:", error);
+    });
+
+        }
+
+              
+
+</script>
+ 
+ 
+</body>
+</html>
