@@ -29,15 +29,15 @@ app.get('/home?', (req, res) => {
 });
 
 // index
-// app.get('/form?',(req,res)=>{
-//   res.render("index")
-// })
+app.get('/form?',(req,res)=>{
+  res.render("index")
+})
 
 
 // Submit
-app.post("/submit",(req,res)=>{
+  app.post("/submit",(req,res)=>{
   const userdata = req.body;
-  // console.log(userdata);
+  
 
   fs.readFile("./data/data.json","utf-8",(err,data)=>{
     if(err){
@@ -49,13 +49,16 @@ app.post("/submit",(req,res)=>{
         userdata.id =existingdata.length+1;
         existingdata.push(userdata)
 
+       
+
         fs.writeFile("./data/data.json",JSON.stringify(existingdata,null,2),(Errorcode)=>{
-          if(writeError){
+          if(err){
             console.error("Error, adding data bise",Errorcode)
 
           }else{
             res.status(500)
             res.send("new user added ")
+            console.log(data);
           }
 
         })
@@ -69,11 +72,11 @@ app.post("/submit",(req,res)=>{
   );
 });
 
- 
+//  app.get(getdetails)
  
 
  
-const PORT = process.env.PORT || 3030;
+const PORT = process.env.PORT || 4030;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
