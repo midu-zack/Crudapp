@@ -101,7 +101,7 @@
               <td>${item.phonenumber}</td>
               <td>${item.age}</td>
               <td>${item.gmail}</td> 
-              <td><button class="btn btn-info btn-sm" onclick="updateUser('${item.id}','${item.name}', '${item.phone}', ${item.age}, '${item.gmail}')"">Edit</button>
+              <td><button class="btn btn-info btn-sm" onclick="updateUser('${item.id}')"">Edit</button>
               </td>
               <td>
               <button class="btn btn-danger btn-sm" onclick="deleteUser('${item.id}')">Delete</button>
@@ -117,88 +117,94 @@
 
 
 
-  function updateUser(mid,mname,mtelphone,mage,mgmail){
+  // function updateUser(mid,mname,mtelphone,mage,mgmail){
 
  
-    document.getElementById("userlistform").style.display = 'none'
-     document.getElementById("registration").style.display ='block'
+  //   document.getElementById("userlistform").style.display = 'none'
+  //    document.getElementById("registration").style.display ='block'
        
-     document.getElementById('nickname').value = mname;
-     document.getElementById('phonenumber').value = mtelphone;
-     document.getElementById('ageold').value = mage ;
-     document.getElementById('mail').value = mgmail ;
+  //    document.getElementById('nickname').value = mname;
+  //    document.getElementById('phonenumber').value = mtelphone;
+  //    document.getElementById('ageold').value = mage ;
+  //    document.getElementById('mail').value = mgmail ;
 
 
 
    
-    const modibtn = document.getElementById('modifyd');
-    modibtn.addEventListener('click',()=>{
+  //   const modibtn = document.getElementById('modifyd');
+  //   modibtn.addEventListener('click',()=>{
     
       
 
-        let tname = document.getElementById('nickname').value;
-        let fname = document.getElementById('nameform')
-        let telphone = document.getElementById('phonenumber').value;
-        let fphone = document.getElementById('numberform')
-        let yearold = document.getElementById('ageold').value;
-        let fage = document.getElementById('ageform')
-        let fmail = document.getElementById('mail').value
-        let fgmail = document.getElementById('gmailform')
+  //       let tname = document.getElementById('nickname').value;
+  //       let fname = document.getElementById('nameform')
+  //       let telphone = document.getElementById('phonenumber').value;
+  //       let fphone = document.getElementById('numberform')
+  //       let yearold = document.getElementById('ageold').value;
+  //       let fage = document.getElementById('ageform')
+  //       let fmail = document.getElementById('mail').value
+  //       let fgmail = document.getElementById('gmailform')
     
         
 
-      if(tname === ''){
-        fname.innerHTML = " Enter your name"
-        return false;
-      }
+  //     if(tname === ''){
+  //       fname.innerHTML = " Enter your name"
+  //       return false;
+  //     }
        
       
-      if(telphone === ''){
-        fphone.innerHTML = 'Enter your phone number'
-        return false
-      } 
+  //     if(telphone === ''){
+  //       fphone.innerHTML = 'Enter your phone number'
+  //       return false
+  //     } 
       
-      if(yearold === ''){
-        fage.innerHTML = 'Enter your age'
+  //     if(yearold === ''){
+  //       fage.innerHTML = 'Enter your age'
        
-        return false
-      } 
+  //       return false
+  //     } 
       
 
-      if(fmail === ''){
-        fgmail.innerHTML='Enter proper gmail '
+  //     if(fmail === ''){
+  //       fgmail.innerHTML='Enter proper gmail '
          
-        return false
-      } 
+  //       return false
+  //     } 
 
   
-      const dataToUpdate = {
-          name:tname,
-          phonenumber:telphone,
-          age:yearold,
-          gmail:fmail
-          }
+  //     const dataToUpdate = {
+  //         name:tname,
+  //         phonenumber:telphone,
+  //         age:yearold,
+  //         gmail:fmail
+  //         }
 
-        fetch('/editdetails/${mid}', {
-          method : 'PUT',
-          headers : { "Content-Type": "application/json" },
-          body :JSON.stringify(dataToUpdate),
-        }).then((response)=>{
-          if(response.status===200){
-            alert("update your datas")
-            console.log("Modifd");
-            window.location.href = "/home?"
-          }else{
-            console.err("ERROR modifd not possible")
-            response.status,
-            response.statusText;
-          }
+        // fetch('/editdetails/${mid}', {
+        //   method : 'PUT',
+        //   headers : { "Content-Type": "application/json" },
+        //   body :JSON.stringify(dataToUpdate),
+        // }).then((response)=>{
+        //   if(response.status===200){
+        //     alert("update your datas")
+        //     console.log("Modifd");
+        //     window.location.href = "/home?"
+        //   }else{
+        //     console.err("ERROR modifd not possible")
+        //     response.status,
+        //     response.statusText;
+        //   }
          
-        }) .catch((error) => {
-           console.error("Fetch Error:", error);
-         });
-            });
-        }
+        // }) .catch((error) => {
+        //    console.error("Fetch Error:", error);
+        //  });
+        //     });
+        // }
+
+
+          // update part
+          function updateUser(yid){
+            window.location.href=`/updateUser/${yid}`;
+          }
 
         // delete button 
         function deleteUser(userid){

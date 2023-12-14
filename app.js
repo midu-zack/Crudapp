@@ -31,9 +31,9 @@ app.get('/home?', (req, res) => {
 });
 
 // index
-app.get('/form?',(req,res)=>{
-  res.render("index")
-})
+// app.get('/form',(req,res)=>{
+//   res.render("index")
+// })
 
 
 // Submit
@@ -98,67 +98,155 @@ app.get('/form?',(req,res)=>{
  });
 
 
-//  modifyd
- 
-
-
-// delete section
-app.delete("/deleteuser/:id",(req,res)=>{
-  const userid = parseInt(req.params.id);
+//  Editing readfile
+app.get("/updateUser/:id",(req,res)=>{
+  const userid= parseInt(req.params.id)
 
   fs.readFile("./data/data.json","utf-8",(err,data)=>{
     if(err){
-      console.error("error reading database for deleting user");
+      console.error("error readfile modyd ");
       res.status(500)
+      res.send("error readfile modyd ")
+
     }else{
       try{
-        let existingdata = JSON.parse(data)
-        
-        console.log(existingdata);
-        const userid = 1;
-        const testid = existingdata.find((users)=> users.id === userid)
-        
-        // console.log( "are you working now");
+        const existingdata = JSON.parse(data)
+        const user = existingdata.findIndex((users)=>users.id === userid )
 
+         if(user){
 
-        if(testid !== -1){
-          existingdata.splice(testid,1)
+          res.render("index",{user})
 
-          existingdata = existingdata.map((object,testid)=>{
-            object.id = testid +1
-            return object;
-          });
+         }else{
 
-         
+          console.error(`${user}not found`);
+          res.status(500)
 
-          fs.writeFile("./data/data.json",JSON.stringify(existingdata,null,2),(err)=>{
-            if(err){
-              console.error("database deletion not possible ");
-              res.status(500)
-              res.send("not possible deletion")
-              
-            }else{
-              console.log("delete successfully");
-              res.status(200)
-              res.send(" deleted datas ")
-            }
-          });
-
-        }else{
-          console.log(`given ${userid}`);
-          res.status(404)
-        }
-
+         }
       }catch(err){
-        console.error("unexpectedrror in delete ");
-        res.status(500)
-        res.send("Unexpected Errror in deletion section ")
+        console.error("Error not readfile");
+        res.status("Error not readfile")
+        res.send("Unexpected Error , not readfile")
 
       }
     }
-
   })
 })
+
+
+
+
+
+
+
+
+
+
+// values editing section
+
+app.get("/updateUser/:id",(req,res)=>{
+
+  const userid = parseInt(req.params.id);
+  const modifydata = req.body;
+
+  fs.readFile("./data/data.json","utf-8",(err,data)=>{
+    if(err){
+      console.error("error modyd not clear ");
+      res.status(500)
+      res.send("error modyd not clear ")
+
+    }else{
+      try{
+        const existingData = JSON.parse(data);
+        const modifyuser = existingData.findIndex((users)=>users.id === userid );
+        
+        if(modifyuser !== -1 ){
+
+          existingData[modifyuser]=modifydata
+
+          fs.writeFile("./data/data.json",JSON.stringify(existingData,null,2),(err)=>{
+            if(err){
+              console.error("error modifyd not clear ");
+              res.status(500)
+              res.send("error modifyd not clear ")
+        
+            }else{
+              console.log(" data modifying");
+              res.status(200)
+              res.send("Data modifying")
+        
+            }
+          })
+
+        }else{
+          console.log("datas not update");
+          res.send("Datas not update")
+        }
+      }catch(err){
+        console.error("Unexpected Error in updatesection");
+        res.send("Unexpected Error in updatesection")
+        res.status(404)
+      }
+
+    }
+  })
+
+})
+
+
+
+
+
+
+// update delete
+ 
+app.delete('/deleteuser/:id', (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  fs.readFile('./data/data.json', 'utf-8', (err, data) => {
+    if (err) {
+      console.error('Error reading database for deleting user');
+      res.status(500).send('Internal Server Error');
+    } else {
+      try {
+        let existingData = JSON.parse(data);
+        console.log(existingData);
+
+        const userIndex = existingData.findIndex((user) => user.id === userId);
+
+        if (userIndex !== -1) {
+          existingData.splice(userIndex, 1);
+
+          existingData = existingData.map((user, index) => {
+            user.id = index + 1;
+            return user;
+          });
+
+          fs.writeFile('./data/data.json', JSON.stringify(existingData, null, 2), (err) => {
+            if (err) {
+              console.error('Database deletion not possible');
+              res.status(500).send('Internal Server Error');
+            } else {
+              console.log('Delete successful');
+              res.status(200).send('Deleted data');
+            }
+          });
+        } else {
+          console.log(`User with ID ${userId} not found`);
+          res.status(404).send('User not found');
+        }
+      } catch (err) {
+        console.error('Unexpected error in delete');
+        res.status(500).send('Unexpected Error in deletion section');
+      }
+    }
+  });
+});
+
+
+
+
+ 
  
 
  
