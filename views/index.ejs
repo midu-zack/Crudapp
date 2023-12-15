@@ -62,7 +62,7 @@
           <form action="/submit" onsubmit="return validateForm()" method="post" >
             <div class="form-group">
               <label for="name">Name:</label>
-              <input type="text" class="form-control"  id="nickname" placeholder="Enter your name " name="name" value="<%= user? user.number:"" %>">
+              <input type="text" class="form-control"  id="nickname" placeholder="Enter your name " name="name" value="<%= user? user.name:"" %>">
               <p id="nameform" style="color: #e10000;"></p>
             </div>
             <div class="form-group">
@@ -77,7 +77,7 @@
             </div>
             <div class="form-group">
               <label for="gmail">Gmail:</label>
-              <input type="email" class="form-control" id="mail" placeholder="example@example.com" name="gmail" value="<%= user? user.Gmail:"" %>">
+              <input type="email" class="form-control" id="mail" placeholder="example@example.com" name="gmail" value="<%= user? user.gmail:"" %>">
               <p id="gmailform" style="color: #e10000;"></p>
             </div>
            
@@ -87,7 +87,7 @@
           </form>
   
           <form action="/home" method="get " class="pt-3">
-            <button type="submit" class="btn btn-login " style=" background-color: #e10000;" >All USERS</button>
+            <button  class="btn btn-login " style=" background-color: #e10000;" >All USERS</button>
            </form>
         </div>
       </div>
@@ -97,55 +97,77 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-      let tname  ;
-      let fname ;
-      let telphone  ;
+
+
+
+      let tname;
+      let fname;
+      let telphone;
       let fphone;
       let yearold;
       let fage;
       let fmail;
-      let fgmail
+      let fgmail;
       let id = 0;
 
       function validateForm() {
-    tname = document.getElementById('nickname').value;
-    fname = document.getElementById('nameform');
-    telphone = document.getElementById('phonenumber').value;
-    fphone = document.getElementById('numberform');
-    yearold = document.getElementById('ageold').value;
-    fage = document.getElementById('ageform');
-    fmail = document.getElementById('mail').value;
-    fgmail = document.getElementById('gmailform');
+          tname = document.getElementById('nickname').value;
+          fname = document.getElementById('nameform');
+          telphone = document.getElementById('phonenumber').value;
+          fphone = document.getElementById('numberform');
+          yearold = document.getElementById('ageold').value;
+          fage = document.getElementById('ageform');
+          fmail = document.getElementById('mail').value;
+          fgmail = document.getElementById('gmailform');
 
-    id = 0;
+          id = 0;
 
-    if (tname === '') {
-        fname.innerHTML = 'Enter your name';
-        return false;
-    }
+          if (tname.trim() === '') {
+              fname.innerHTML = "Name field is required";
+              return false;
+          } else {
+              fname.innerHTML = ""; // Clear error  
+          }
 
-    if (telphone === '') {
-        fphone.innerHTML = 'Enter your phone number';
-        return false;
-    }
 
-    if (yearold === '') {
-        fage.innerHTML = 'Enter your age';
-        return false;
-    }
 
-    if (fmail === '') {
-        fgmail.innerHTML = 'Enter proper gmail';
-        return false;
-    }
+          if (telphone.length < 10) {
+              fphone.innerHTML = 'Number must be 10 digits.';
+              return false;
+          } else {
+              fphone.innerHTML = "";  
+          }
 
-    const data = {
-        name: tname,
-        phonenumber: telphone,
-        age: yearold,
-        gmail: fmail
-    };
 
+           
+            if (yearold.trim() === '') {
+              fage.innerHTML = 'Age field is required';
+              return false;
+          } else {
+              fage.innerHTML = "";  
+
+
+
+          if (fmail.trim() === '') {
+              fgmail.innerHTML = 'Enter proper gmail ';
+              return false;
+          } else {
+              fgmail.innerHTML = "";  
+          }
+
+            
+             
+        }
+       
+        const data = {
+          
+          name:tname,
+          phonenumber:telphone,
+          age:yearold,
+          gmail:fmail
+        }
+
+ 
     fetch("/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -161,16 +183,19 @@
                 showConfirmButton: false,
             });
             setInterval(() => {
+                
                 window.location.reload();
+                
+
             }, 2000);
         } else {
-            // Handle errors if needed
+            //  if errors  
             console.error('Error:', response.status, response.statusText);
         }
     })
     .catch((error) => {
         console.error('Error:', error);
-        // Handle fetch errors
+        //   fetch errors
     });
 
     return false;

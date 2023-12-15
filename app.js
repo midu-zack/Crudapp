@@ -74,6 +74,9 @@ app.get('/home?', (req, res) => {
   );
 });
 
+
+// readfile update
+
  app.get("/getdetails",(req,res)=>{
   fs.readFile("./data/data.json","utf-8",(err,data)=>{
     
@@ -100,7 +103,10 @@ app.get('/home?', (req, res) => {
 
 //  Editing readfile
 app.get("/updateUser/:id",(req,res)=>{
+
   const userid= parseInt(req.params.id)
+
+   
 
   fs.readFile("./data/data.json","utf-8",(err,data)=>{
     if(err){
@@ -111,11 +117,15 @@ app.get("/updateUser/:id",(req,res)=>{
     }else{
       try{
         const existingdata = JSON.parse(data)
-        const user = existingdata.findIndex((users)=>users.id === userid )
 
+        const user = existingdata.find((users)=>users.id === userid )
+
+        console.log(user);
+         
          if(user){
 
           res.render("index",{user})
+           
 
          }else{
 
@@ -132,15 +142,7 @@ app.get("/updateUser/:id",(req,res)=>{
     }
   })
 })
-
-
-
-
-
-
-
-
-
+ 
 
 // values editing section
 
@@ -148,6 +150,8 @@ app.get("/updateUser/:id",(req,res)=>{
 
   const userid = parseInt(req.params.id);
   const modifydata = req.body;
+
+ 
 
   fs.readFile("./data/data.json","utf-8",(err,data)=>{
     if(err){
@@ -160,6 +164,7 @@ app.get("/updateUser/:id",(req,res)=>{
         const existingData = JSON.parse(data);
         const modifyuser = existingData.findIndex((users)=>users.id === userid );
         
+        console.log(modifyuser);
         if(modifyuser !== -1 ){
 
           existingData[modifyuser]=modifydata
