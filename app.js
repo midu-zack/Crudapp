@@ -18,6 +18,7 @@ app.use(bodyparser.json());
 
 // home
 app.get("/" || "/home?", (req, res) => {
+
   const data = {
     formpage: "miduzack",
     user: null,
@@ -31,9 +32,9 @@ app.get('/home?', (req, res) => {
 });
 
 // index
-// app.get('/form',(req,res)=>{
-//   res.render("index")
-// })
+app.get('/',(req,res)=>{
+  res.render('index');
+})
 
 
 // Submit
@@ -265,7 +266,7 @@ app.delete('/deleteuser/:id', (req, res) => {
  
 
  
-const PORT = process.env.PORT || 4030;
+const PORT = process.env.PORT || 8030;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

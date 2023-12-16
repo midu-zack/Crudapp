@@ -1,15 +1,15 @@
 [
   {
     "name": "Roary Washington",
-    "phonenumber": "322222222222",
-    "age": "7",
+    "phonenumber": "9567666402",
+    "age": "34",
     "gmail": "bala@mailinator.com",
     "id": 1
   },
   {
     "name": "Roary Washington",
     "phonenumber": "9567666402",
-    "age": "34",
+    "age": "73",
     "gmail": "bala@mailinator.com",
     "id": 2
   },
@@ -22,37 +22,23 @@
   },
   {
     "name": "Roary Washington",
-    "phonenumber": "611111111111",
+    "phonenumber": "9567666402",
     "age": "73",
     "gmail": "bala@mailinator.com",
     "id": 4
-  },
-  {
-    "name": "Roary Washington",
-    "phonenumber": "9567666402",
-    "age": "73",
-    "gmail": "bala@mailinator.com",
-    "id": 5
-  },
-  {
-    "name": "Roary Washington",
-    "phonenumber": "9567666402",
-    "age": "73",
-    "gmail": "bala@mailinator.com",
-    "id": 6
   },
   {
     "name": "Wylie Kirby",
     "phonenumber": "8989238923",
     "age": "85",
     "gmail": "cajytex@mailinator.com",
-    "id": 7
+    "id": 5
   },
   {
     "name": " miduzack pulladan",
     "phonenumber": "322222222222",
     "age": "7",
     "gmail": "bala@mailinator.com",
-    "id": 8
+    "id": 6
   }
 ]
