@@ -81,7 +81,7 @@
               <p id="gmailform" style="color: #e10000;"></p>
             </div>
            
-            <button type="submit" class=" btn btn-login " value= "<%= user? "Edit" : " addingdetails" %>" > Submit </button>
+            <button type="submit" class=" btn btn-login " id="submitButton" value= "<%= user? "Edit" : " addingdetails" %>" > Submit </button>
       
           
           </form>
@@ -158,7 +158,7 @@
             
              
         }
-       
+       if(submitButton.value ==="addingdetails" ){
         const data = {
           
           name:tname,
@@ -196,7 +196,48 @@
     .catch((error) => {
         console.error('Error:', error);
         //   fetch errors
-    });
+    })
+    
+}else{
+    const data = {
+          
+          name:tname,
+          phonenumber:telphone,
+          age:yearold,
+          gmail:fmail
+        }
+
+ 
+    fetch("/updateData/" + id , {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    })
+    .then((response) => {
+        if (response.ok) {
+            Swal.fire({
+                title: "Successfully!",
+                icon: "success",
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+            });
+            setInterval(() => {
+                
+                window.location.reload();
+                
+
+            }, 2000);
+        } else {
+            //  if errors  
+            console.error('Error:', response.status, response.statusText);
+        }
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        //   fetch errors
+    })
+}
 
     return false;
 } 

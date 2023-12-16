@@ -14,10 +14,10 @@ app.set("views", "./views")
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, 'views'));
 
-app.use(bodyparser.json());
+app.use(bodyparser.json());    
 
 // home
-app.get("/"|| "/home?", (req, res) => {
+app.get("/" || "/home?", (req, res) => {
   const data = {
     formpage: "miduzack",
     user: null,
@@ -55,7 +55,7 @@ app.get('/home?', (req, res) => {
 
         fs.writeFile("./data/data.json",JSON.stringify(existingdata,null,2),(Errorcode)=>{
           if(err){
-            console.error("Error, adding data bise",Errorcode)
+            console.error("Error, adding data base",Errorcode)
 
           }else{
             res.status(200)
@@ -75,6 +75,8 @@ app.get('/home?', (req, res) => {
 });
 
 
+
+
 // readfile update
 
  app.get("/getdetails",(req,res)=>{
@@ -88,7 +90,9 @@ app.get('/home?', (req, res) => {
       }else{
         try{
           const existingdata = JSON.parse(data)
+
           res.status(200).json(existingdata)
+
         }catch(error){
           console.error("Unexpected error , show in table");
           res.status(500)
@@ -120,7 +124,7 @@ app.get("/updateUser/:id",(req,res)=>{
 
         const user = existingdata.find((users)=>users.id === userid )
 
-        console.log(user);
+        // console.log(user);
          
          if(user){
 
@@ -134,6 +138,7 @@ app.get("/updateUser/:id",(req,res)=>{
 
          }
       }catch(err){
+
         console.error("Error not readfile");
         res.status("Error not readfile")
         res.send("Unexpected Error , not readfile")
@@ -146,18 +151,21 @@ app.get("/updateUser/:id",(req,res)=>{
 
 // values editing section
 
-app.get("/updateUser/:id",(req,res)=>{
+app.put("/updateData/:id",(req,res)=>{
 
   const userid = parseInt(req.params.id);
   const modifydata = req.body;
+
+  console.log(modifydata);
 
  
 
   fs.readFile("./data/data.json","utf-8",(err,data)=>{
     if(err){
-      console.error("error modyd not clear ");
+
+      console.error("error modify not clear ");
       res.status(500)
-      res.send("error modyd not clear ")
+      res.send("error modify not clear ")
 
     }else{
       try{
@@ -165,9 +173,11 @@ app.get("/updateUser/:id",(req,res)=>{
         const modifyuser = existingData.findIndex((users)=>users.id === userid );
         
         console.log(modifyuser);
+
+
         if(modifyuser !== -1 ){
 
-          existingData[modifyuser]=modifydata
+          existingData[modifyuser] = modifydata
 
           fs.writeFile("./data/data.json",JSON.stringify(existingData,null,2),(err)=>{
             if(err){
@@ -203,7 +213,7 @@ app.get("/updateUser/:id",(req,res)=>{
 
 
 
-// update delete
+// delete section
  
 app.delete('/deleteuser/:id', (req, res) => {
   const userId = parseInt(req.params.id);
