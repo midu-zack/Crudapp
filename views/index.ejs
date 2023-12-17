@@ -193,6 +193,7 @@
         //  update logic
         const id = document.getElementById("modifyingUid").innerText.trim();
         const data = {
+            id:id,
             name: tname,
             phonenumber: telphone,
             age: yearold,
@@ -200,7 +201,7 @@
         };
 
         //  fetch updating datas
-        fetch("/updateData/" + id, {
+        fetch(`/updateData/ ${id} ` ,{
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

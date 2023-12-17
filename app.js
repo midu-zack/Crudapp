@@ -173,12 +173,14 @@ app.put("/updateData/:id",(req,res)=>{
         const existingData = JSON.parse(data);
         const modifyuser = existingData.findIndex((users)=>users.id === userid );
         
-        console.log(modifyuser);
+        console.log(modifyuser  );
 
 
         if(modifyuser !== -1 ){
 
           existingData[modifyuser] = modifydata
+
+          
 
           fs.writeFile("./data/data.json",JSON.stringify(existingData,null,2),(err)=>{
             if(err){
