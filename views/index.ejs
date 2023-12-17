@@ -98,29 +98,22 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
 
+ 
+ 
 
-
-      let tname;
-      let fname;
-      let telphone;
-      let fphone;
-      let yearold;
-      let fage;
-      let fmail;
-      let fgmail;
-      let id = 0;
+ 
 
       function validateForm() {
-          tname = document.getElementById('nickname').value;
-          fname = document.getElementById('nameform');
-          telphone = document.getElementById('phonenumber').value;
-          fphone = document.getElementById('numberform');
-          yearold = document.getElementById('ageold').value;
-          fage = document.getElementById('ageform');
-          fmail = document.getElementById('mail').value;
-          fgmail = document.getElementById('gmailform');
+        let tname = document.getElementById('nickname').value.trim();
+        let fname = document.getElementById('nameform');
+        let telphone = document.getElementById('phonenumber').value;
+        let fphone = document.getElementById('numberform');
+        let yearold = document.getElementById('ageold').value.trim();
+        let fage = document.getElementById('ageform');
+        let fmail = document.getElementById('mail').value.trim();
+        let fgmail = document.getElementById('gmailform');
+        const submitButtonValue = document.getElementById("submitButton").value;
 
-          id = 0;
 
           if (tname.trim() === '') {
               fname.innerHTML = "Name field is required";
@@ -154,93 +147,80 @@
           } else {
               fgmail.innerHTML = "";  
           }
+    
 
             
-             
-        }
-       if(submitButton.value ==="addingdetails" ){
+             // Success Callback Refactoring
+    const successCallback = () => {
+        Swal.fire({
+            title: "Successfully!",
+            icon: "success",
+            timer: 2000,
+            timerProgressBar: true,
+            showConfirmButton: false,
+        });
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
+    };
+
+    // Submit Logic
+    if (submitButtonValue === " addingdetails") {
         const data = {
-          
-          name:tname,
-          phonenumber:telphone,
-          age:yearold,
-          gmail:fmail
-        }
+            name: tname,
+            phonenumber: telphone,
+            age: yearold,
+            gmail: fmail
+        };
 
- 
-    fetch("/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    })
-    .then((response) => {
-        if (response.ok) {
-            Swal.fire({
-                title: "Successfully!",
-                icon: "success",
-                timer: 2000,
-                timerProgressBar: true,
-                showConfirmButton: false,
-            });
-            setInterval(() => {
-                
-                window.location.reload();
-                
+        // Fetch for adding details
+        fetch("/submit", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        })
+        .then((response) => {
+            if (response.ok) {
+                successCallback();
+            } else {
+                console.error('Error:', response.status, response.statusText);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    } else {
+        //  update logic
+        const id = document.getElementById("modifyingUid").innerText.trim();
+        const data = {
+            name: tname,
+            phonenumber: telphone,
+            age: yearold,
+            gmail: fmail
+        };
 
-            }, 2000);
-        } else {
-            //  if errors  
-            console.error('Error:', response.status, response.statusText);
-        }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        //   fetch errors
-    })
-    
-}else{
-    const data = {
-          
-          name:tname,
-          phonenumber:telphone,
-          age:yearold,
-          gmail:fmail
-        }
-
- 
-    fetch("/updateData/" + id , {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    })
-    .then((response) => {
-        if (response.ok) {
-            Swal.fire({
-                title: "Successfully!",
-                icon: "success",
-                timer: 2000,
-                timerProgressBar: true,
-                showConfirmButton: false,
-            });
-            setInterval(() => {
-                
-                window.location.reload();
-                
-
-            }, 2000);
-        } else {
-            //  if errors  
-            console.error('Error:', response.status, response.statusText);
-        }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        //   fetch errors
-    })
-}
+        //  fetch updating datas
+        fetch("/updateData/" + id, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        })
+        .then((response) => {
+            if (response.ok) {
+                successCallback();
+            } else {
+                console.error('Error:', response.status, response.statusText);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 
     return false;
-} 
+}
+      }
+
     </script>
    
 </body>
