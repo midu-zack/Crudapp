@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= user?' editdatas':formpage %></title>
+    <title> <%= user?'editdatas' :formpage %> </title>
 </head>
 <body>
   <style>
@@ -150,7 +150,7 @@
     
 
             
-             // Success Callback Refactoring
+             // Success Callback 
     const successCallback = () => {
         Swal.fire({
             title: "Successfully!",
@@ -193,7 +193,7 @@
         //  update logic
         const id = document.getElementById("modifyingUid").innerText.trim();
         const data = {
-            id:id,
+            id:parseInt(id),
             name: tname,
             phonenumber: telphone,
             age: yearold,
@@ -207,8 +207,11 @@
             body: JSON.stringify(data),
         })
         .then((response) => {
+           
             if (response.ok) {
+        
                 successCallback();
+                
             } else {
                 console.error('Error:', response.status, response.statusText);
             }
